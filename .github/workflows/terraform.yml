@@ -22,20 +22,12 @@ jobs:
       vault:
         image: vault
         env:
-          VAULT_DEV_ROOT_TOKEN_ID: "$VAULT_TOKEN"
+          VAULT_DEV_ROOT_TOKEN_ID: "simple"
         ports:
           - 8200:8201
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: trust hashicorp
-        run: curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-      - name: add hashicorp repository
-        run: sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-      - name: install vault
-        run: sudo apt-get update && sudo apt-get install -y vault
-      - name: start a developement vault server
-        run: vault server -dev -dev-root-token-id="$VAULT_TOKEN" &
       - name: terraform init
         uses: robertdebock/terraform-action@1.1.2
         with:
