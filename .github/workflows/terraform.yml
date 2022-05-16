@@ -22,7 +22,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: install vault
-        run: apt-get install -y vault
+        run: sudo apt-get install -y vault
       - name: start a developement vault server
         run: vault server -dev -dev-root-token-id="$VAULT_TOKEN"
       - name: terraform init
