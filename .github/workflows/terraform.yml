@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+      - name: install vault
+        run: apk add vault
       - name: start a developement vault server
         run: vault server -dev -dev-root-token-id="$VAULT_TOKEN"
       - name: terraform init
