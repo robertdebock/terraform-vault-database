@@ -9,7 +9,7 @@ resource "vault_database_secrets_mount" "default" {
     allowed_roles     = ["postgres-dev"]
   }
   provisioner "local-exec" {
-    command = "vault write --force ${self.path}/rotate-root/${self.postgresql[0].name}"
+    command = "curl --header \"X-Vault-Token: ${VAULT_TOKEN}\" --request POST \"${VAULT_ADDR}/v1/database/rotate-root/postgresql"
   }
 }
 
