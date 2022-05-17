@@ -1,12 +1,15 @@
 resource "vault_database_secrets_mount" "default" {
-  path = "db"
+  path = "database"
   postgresql {
-    name              = "db2"
+    name              = "postgres"
     username          = var.db_username
     password          = var.db_password
     connection_url    = "postgresql://{{username}}:{{password}}@${var.db_hostname}:${var.db_tcp_port}/postgres"
     verify_connection = true
     allowed_roles     = ["postgres-dev"]
+  }
+  provisioner "local-exec" {
+    command = "vault write --force ${self.path}/rotate-root/${self.postgresql[0].name}"
   }
 }
 
