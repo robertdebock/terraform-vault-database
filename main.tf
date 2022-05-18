@@ -8,9 +8,6 @@ resource "vault_database_secrets_mount" "default" {
     verify_connection = true
     allowed_roles     = ["postgres-dev"]
   }
-  provisioner "local-exec" {
-    command = "curl --header \"X-Vault-Token: ${VAULT_TOKEN}\" --request POST \"${VAULT_ADDR}/v1/database/rotate-root/postgresql"
-  }
 }
 
 resource "vault_database_secret_backend_role" "default" {
