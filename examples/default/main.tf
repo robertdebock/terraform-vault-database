@@ -27,7 +27,7 @@ resource "aws_db_instance" "default" {
   identifier             = "test"
   engine                 = "postgres"
   instance_class         = "db.t3.micro"
-  name                   = "test"
+  db_name                = "test"
   username               = "foo"
   password               = "foobarbaz"
   publicly_accessible    = true
