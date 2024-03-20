@@ -1,13 +1,13 @@
-# Find the current VPC.
-data "aws_vpc" "default" {
-  default = true
+# Create a VPC
+resource "aws_vpc" "default" {
+  cidr_block = "10.0.0.0/16"
 }
 
 # Add a security group.
 resource "aws_security_group" "default" {
   name        = "allow_databases"
   description = "Allow database inbound traffic"
-  vpc_id      = data.aws_vpc.default.id
+  vpc_id      = aws_vpc.default.id
 
   ingress {
     description = "PostgreSQL"
