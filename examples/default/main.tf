@@ -31,7 +31,7 @@ resource "aws_security_group" "default" {
 # Create a db subnet group.
 resource "aws_db_subnet_group" "default" {
   name       = "main"
-  subnet_ids = [aws_subnet.default[*].id]
+  subnet_ids = aws_subnet.default[*].id
 }
 
 # Create a database instance.
