@@ -3,6 +3,12 @@ resource "aws_vpc" "default" {
   cidr_block = "10.0.0.0/16"
 }
 
+# Create a subnet.
+resource "aws_subnet" "default" {
+  vpc_id     = aws_vpc.default.id
+  cidr_block = "10.0.1.0/24"
+}
+
 # Add a security group.
 resource "aws_security_group" "default" {
   name        = "allow_databases"
@@ -21,6 +27,12 @@ resource "aws_security_group" "default" {
   }
 }
 
+# Create a db subnet group.
+resource "aws_db_subnet_group" "default" {
+  name       = "main"
+  subnet_ids = [aws_subnet.default.id]
+}
+
 # Create a database instance.
 resource "aws_db_instance" "default" {
   allocated_storage      = 10
@@ -33,6 +45,7 @@ resource "aws_db_instance" "default" {
   publicly_accessible    = true
   skip_final_snapshot    = true
   vpc_security_group_ids = [aws_security_group.default.id]
+  db_subnet_group_name   = aws_db_subnet_group.default.name
   tags = {
     owner = "robertdebock"
   }
