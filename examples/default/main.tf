@@ -5,8 +5,9 @@ resource "aws_vpc" "default" {
 
 # Create a subnet.
 resource "aws_subnet" "default" {
+  count      = 3
   vpc_id     = aws_vpc.default.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = "10.0.${count.index}.0/24"
 }
 
 # Add a security group.
@@ -30,7 +31,7 @@ resource "aws_security_group" "default" {
 # Create a db subnet group.
 resource "aws_db_subnet_group" "default" {
   name       = "main"
-  subnet_ids = [aws_subnet.default.id]
+  subnet_ids = [aws_subnet.default[*].id]
 }
 
 # Create a database instance.
