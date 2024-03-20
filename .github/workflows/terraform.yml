@@ -26,6 +26,12 @@ jobs:
           VAULT_DEV_ROOT_TOKEN_ID: "simple"
         ports:
           - 8200:8200
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
     steps:
       - name: checkout
         uses: actions/checkout@v4
