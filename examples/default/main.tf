@@ -22,8 +22,8 @@ resource "aws_subnet" "default" {
 
 # Add a security group.
 resource "aws_security_group" "default" {
-  name        = "allow_databases"
-  description = "Allow database inbound traffic"
+  name        = "internet-to-database"
+  description = "Allow internet database inbound traffic"
   vpc_id      = aws_vpc.default.id
 
   ingress {
@@ -33,9 +33,22 @@ resource "aws_security_group" "default" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
   tags = {
     owner = "robertdebock"
   }
+}
+
+# Allow connections to route to the internet
+resource "aws_route" "default" {
+  route_table_id = aws_vpc.default.main_route_table_id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.default.id
 }
 
 # Create a db subnet group.
