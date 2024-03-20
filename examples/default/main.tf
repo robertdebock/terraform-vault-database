@@ -3,10 +3,15 @@ resource "aws_vpc" "default" {
   cidr_block = "10.0.0.0/16"
 }
 
-# Loop up AZs.
+# Create an internet gateway.
+resource "aws_internet_gateway" "default" {
+  vpc_id = aws_vpc.default.id
+}
+
+# Loop up Availability Zones.
 data "aws_availability_zones" "available" {}
 
-# Create a subnet.
+# Create subnets.
 resource "aws_subnet" "default" {
   count             = 3
   vpc_id            = aws_vpc.default.id
