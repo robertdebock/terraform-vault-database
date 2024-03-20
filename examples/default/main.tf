@@ -3,11 +3,15 @@ resource "aws_vpc" "default" {
   cidr_block = "10.0.0.0/16"
 }
 
+# Loop up AZs.
+data "aws_availability_zones" "available" {}
+
 # Create a subnet.
 resource "aws_subnet" "default" {
-  count      = 3
-  vpc_id     = aws_vpc.default.id
-  cidr_block = "10.0.${count.index}.0/24"
+  count             = 3
+  vpc_id            = aws_vpc.default.id
+  cidr_block        = "10.0.${count.index}.0/24"
+  availability_zone = data.aws_availability_zones.available.names[count.index]
 }
 
 # Add a security group.
