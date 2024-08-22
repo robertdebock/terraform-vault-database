@@ -6,3 +6,7 @@ terraform {
     }
   }
 }
+
+provider "vault" {
+  token   = "root"
+}
