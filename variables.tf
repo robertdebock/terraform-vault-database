@@ -10,7 +10,7 @@ variable "db_tcp_port" {
   description = "The TCP port to use to connect to postgres."
   default     = 5432
   validation {
-    condition     = var.db_tcp_port > 0 && var.db_tcp_port < 65536 
+    condition     = var.db_tcp_port > 0 && var.db_tcp_port < 65536
     error_message = "Please choose a valid TCP port between 1 and 65535."
   }
 }
