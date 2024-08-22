@@ -8,6 +8,6 @@ terraform {
 }
 
 provider "vault" {
-  address = "http://127.0.0.1:8200"
+  address = "http://${docker_container.vault.hostname}:8200"
   token   = "root"
 }
