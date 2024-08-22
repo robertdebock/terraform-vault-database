@@ -19,3 +19,11 @@ resource "vault_database_secret_backend_role" "default" {
     "GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"{{name}}\";",
   ]
 }
+
+resource "vault_generic_endpoint" "rotate_initial_db_password" {
+  depends_on     = [vault_database_secrets_mount.default]
+  path           = "database/rotate-root/${vault_database_secrets_mount.default.path}"
+  disable_read   = true
+  disable_delete = true
+  data_json      = "{}"
+}
