@@ -11,6 +11,6 @@ Supported databases:
 Please tell Terraform where Vault can be found:
 
 ```shell
-export VAULT_ADDR=http://127.0.0.1:8200
-export VAULT_TOKEN="hvs.YoUrToKeN."
+export VAULT_ADDR=http://95.217.128.202:8200
+export VAULT_TOKEN="root"
 ```
