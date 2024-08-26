@@ -14,4 +14,12 @@ resource "docker_container" "postgres" {
     internal = 5432
     external = 5432
   }
+  networks_advanced {
+    name = docker_network.default.name
+  }
+  healthcheck {
+    test     = ["CMD", "pg_isready", "-U", "postgres"]
+    interval = "10s"
+    timeout  = "5s"
+  }
 }

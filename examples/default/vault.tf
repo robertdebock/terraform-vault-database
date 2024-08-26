@@ -13,6 +13,9 @@ resource "docker_container" "vault" {
     internal = 8200
     external = 8200
   }
+  networks_advanced {
+    name = docker_network.default.name
+  }
   depends_on = [
     docker_container.postgres
   ]
