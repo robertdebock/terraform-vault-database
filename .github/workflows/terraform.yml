@@ -57,8 +57,8 @@ jobs:
         run: |
           docker ps
           curl http://0.0.0.0:8200/v1/sys/health
-          apt-get update
-          apt-get install -y vault
+          sudo apt-get update
+          sudo apt-get install -y vault
           vault status
       - name: terraform destroy
         uses: robertdebock/terraform-action@1.1.2
