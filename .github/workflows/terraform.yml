@@ -58,7 +58,7 @@ jobs:
           for container in $(docker ps -q) ; do
             docker logs $container
           done
-          if: ${{ failure() }}
+        if: ${{ failure() }}
       - name: Connect to Vault
         run: |
           curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
