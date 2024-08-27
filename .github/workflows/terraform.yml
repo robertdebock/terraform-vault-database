@@ -54,7 +54,7 @@ jobs:
         env:
           TF_CLI_ARGS: "-input=false -auto-approve"
       - name: debug
-        run:
+        run: |
           docker ps
           curl http://localhost:8200/v1/sys/health
           curl http://vault:8200/v1/sys/health
