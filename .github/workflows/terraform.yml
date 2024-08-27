@@ -6,9 +6,9 @@ jobs:
   terraform:
     name: terraform
     env:
-      # VAULT_ADDR: "http://0.0.0.0:8200"
-      # VAULT_ADDR: "http://127.0.0.1:8200"
-      VAULT_ADDR: "http://localhost:8200"
+      VAULT_ADDR: "http://0.0.0.0:8200"
+      # VAULT_ADDR: "http://127.0.0.1:8200" -> dial tcp 127.0.0.1:8200: connect: connection refused
+      # VAULT_ADDR: "http://localhost:8200" -> dial tcp [::1]:8200: connect: connection refused
       VAULT_TOKEN: "simple"
       TF_LOG: DEBUG
     runs-on: ubuntu-20.04
