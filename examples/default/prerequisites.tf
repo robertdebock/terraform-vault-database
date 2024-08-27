@@ -3,10 +3,6 @@ resource "docker_network" "default" {
   driver = "bridge"
 }
 
-resource "time_sleep" "default" {
-  create_duration = "10s"
-}
-
 resource "docker_image" "postgres" {
   name = "postgres"
 }

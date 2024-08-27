@@ -6,7 +6,6 @@ module "vault_db" {
   db_tcp_port = 5432
   depends_on = [
     docker_container.vault,
-    docker_container.postgres,
-    time_sleep.default
+    docker_container.postgres
   ]
 }
