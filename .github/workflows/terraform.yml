@@ -69,5 +69,8 @@ jobs:
           TF_CLI_ARGS: "-input=false -auto-approve"
         if: ${{ always() }}
       - name: check container logs
-        run: 'docker logs $(docker ps -aql)'
+        run: |
+          for container in $(docker ps -q) ; do
+            docker logs $container
+          done
         if: ${{ failure() }}
