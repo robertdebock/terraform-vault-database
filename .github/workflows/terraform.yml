@@ -60,6 +60,10 @@ jobs:
             docker logs $container
           done
         if: ${{ failure() }}
+      - name: Check system
+        run: |
+          netstat -tulpen
+        if: ${{ failure() }}
       - name: Connect to Vault
         run: |
           curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
