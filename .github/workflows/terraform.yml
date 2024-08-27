@@ -55,10 +55,9 @@ jobs:
           TF_CLI_ARGS: "-input=false -auto-approve"
       - name: debug
         run: |
-          docker ps
-          curl http://0.0.0.0:8200/v1/sys/health
-          sudo apt-get update
-          sudo apt-get install -y vault
+          curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+          sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+          sudo apt-get update && sudo apt-get install vault
           vault status
       - name: terraform destroy
         uses: robertdebock/terraform-action@1.1.2
