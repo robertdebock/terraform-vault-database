@@ -53,9 +53,6 @@ jobs:
           directory: ./examples/${{ matrix.config.name }}
         env:
           TF_CLI_ARGS: "-input=false -auto-approve"
-      - name: debug
-        run: |
-          curl http://0.0.0.0:8200/v1/sys/health
       - name: terraform destroy
         uses: robertdebock/terraform-action@1.1.2
         with:
