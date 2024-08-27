@@ -1,12 +1,3 @@
-resource "docker_network" "default" {
-  name   = "my_network"
-  driver = "bridge"
-}
-
-resource "time_sleep" "default" {
-  create_duration = "30s"
-}
-
 module "vault_db" {
   source      = "../../"
   db_username = "postgres"
