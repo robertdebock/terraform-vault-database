@@ -62,7 +62,7 @@ jobs:
         if: ${{ failure() }}
       - name: Check system
         run: |
-          netstat -tulpen
+          sudo netstat -tulpen
         if: ${{ failure() }}
       - name: Connect to Vault
         run: |
