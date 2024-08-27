@@ -51,3 +51,7 @@ resource "docker_container" "vault" {
     docker_container.postgres
   ]
 }
+
+resource "time_sleep" "default" {
+  create_duration = "10s"
+}
