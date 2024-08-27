@@ -6,11 +6,8 @@ jobs:
   terraform:
     name: terraform
     env:
-      VAULT_ADDR: "http://0.0.0.0:8200"
-      # VAULT_ADDR: "http://127.0.0.1:8200" -> dial tcp 127.0.0.1:8200: connect: connection refused
-      # VAULT_ADDR: "http://localhost:8200" -> dial tcp [::1]:8200: connect: connection refused
+      VAULT_ADDR: "http://vault:8200"
       VAULT_TOKEN: "simple"
-      TF_LOG: DEBUG
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
@@ -18,20 +15,19 @@ jobs:
         config:
           - name: default
       max-parallel: 3
-    # This is solved in Terraform now.
-    # services:
-    #   vault:
-    #     image: hashicorp/vault
-    #     env:
-    #       VAULT_DEV_ROOT_TOKEN_ID: "simple"
-    #     ports:
-    #       - 8200:8200
-    #   postgres:
-    #     image: postgres
-    #     env:
-    #       POSTGRES_PASSWORD: postgres
-    #     ports:
-    #       - 5432:5432
+    services:
+      vault:
+        image: hashicorp/vault
+        env:
+          VAULT_DEV_ROOT_TOKEN_ID: "simple"
+        ports:
+          - 8200:8200
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -56,24 +52,6 @@ jobs:
           directory: ./examples/${{ matrix.config.name }}
         env:
           TF_CLI_ARGS: "-input=false -auto-approve"
-      - name: check container logs
-        run: |
-          for container in $(docker ps -q) ; do
-            echo "CONTAINER: $container"
-            docker logs $container
-          done
-        if: ${{ failure() }}
-      - name: Check system
-        run: |
-          sudo netstat -tulpen
-        if: ${{ failure() }}
-      - name: Connect to Vault
-        run: |
-          curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-          sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-          sudo apt-get update && sudo apt-get install vault
-          vault status
-        if: ${{ failure() }}
       - name: terraform destroy
         uses: robertdebock/terraform-action@1.1.2
         with:
