@@ -53,16 +53,6 @@ jobs:
           directory: ./examples/${{ matrix.config.name }}
         env:
           TF_CLI_ARGS: "-input=false -auto-approve"
-      - name: terraform destroy
-        uses: robertdebock/terraform-action@1.1.2
-        with:
-          action: destroy
-          directory: ./examples/${{ matrix.config.name }}
-        env:
-          TF_CLI_ARGS: "-input=false -auto-approve"
-        # if: ${{ always() }}
-        # If terraform apply did not fail.
-        if: ${{ success() }}
       - name: check container logs
         run: |
           for container in $(docker ps -q) ; do
@@ -73,3 +63,11 @@ jobs:
           sudo apt-get update && sudo apt-get install vault
           vault status
         if: ${{ failure() }}
+      - name: terraform destroy
+        uses: robertdebock/terraform-action@1.1.2
+        with:
+          action: destroy
+          directory: ./examples/${{ matrix.config.name }}
+        env:
+          TF_CLI_ARGS: "-input=false -auto-approve"
+        if: ${{ always() }}
