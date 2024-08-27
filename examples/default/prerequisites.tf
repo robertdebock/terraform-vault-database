@@ -50,6 +50,9 @@ resource "docker_container" "vault" {
   depends_on = [
     docker_container.postgres
   ]
+  capabilities {
+    add = ["IPC_LOCK"]
+  }
 }
 
 resource "time_sleep" "default" {
