@@ -53,7 +53,7 @@ jobs:
           directory: ./examples/${{ matrix.config.name }}
         env:
           TF_CLI_ARGS: "-input=false -auto-approve"
-      - name: debug:
+      - name: debug
         run: |
           docker ps
           curl http://0.0.0.0:8200/v1/sys/health
