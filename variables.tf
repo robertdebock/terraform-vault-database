@@ -22,3 +22,21 @@ variable "db_tcp_port" {
     error_message = "Please choose a valid TCP port between 1 and 65535."
   }
 }
+
+variable "db_path" {
+  description = "The path to mount the database backend."
+  type        = string
+  default     = "database"
+}
+
+variable "db_backend_role_name" {
+  description = "The name of the role to create."
+  type        = string
+  default     = "dev"
+}
+
+variable "db_backend_connection_name" {
+  description = "The name of the connection to create."
+  type        = string
+  default     = "postgres"
+}

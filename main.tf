@@ -1,11 +1,11 @@
 resource "vault_mount" "default" {
-  path = "database"
+  path = var.db_path
   type = "database"
 }
 
 resource "vault_database_secret_backend_role" "default" {
   backend             = vault_mount.default.path
-  name                = "dev"
+  name                = var.db_backend_role_name
   db_name             = vault_database_secret_backend_connection.default.name
   creation_statements = ["CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}';"]
 }
@@ -13,7 +13,7 @@ resource "vault_database_secret_backend_role" "default" {
 
 resource "vault_database_secret_backend_connection" "default" {
   backend                  = vault_mount.default.path
-  name                     = "postgres"
+  name                     = var.db_backend_connection_name
   allowed_roles            = ["dev"]
   root_rotation_statements = ["ALTER ROLE \"{{name}}\" WITH PASSWORD '{{password}}';"]
   postgresql {
@@ -25,7 +25,7 @@ resource "vault_database_secret_backend_connection" "default" {
 
 resource "vault_generic_endpoint" "rotate_initial_db_password" {
   depends_on     = [vault_database_secret_backend_connection.default]
-  path           = "database/rotate-root/${vault_database_secret_backend_connection.default.name}"
+  path           = "${var.db._path}/rotate-root/${vault_database_secret_backend_connection.default.name}"
   disable_read   = true
   disable_delete = true
   data_json      = "{}"
